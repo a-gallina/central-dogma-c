@@ -3,7 +3,7 @@ Un tool scritto in C per convertire sequenze genomiche dal formato FASTA in sequ
 
 ## Funzionalità
 * Lettura e parsing di file ".fasta" 
-* Tracsrizione da DNA a RNA
+* Trascrizione da DNA a RNA
 * Traduzione da RNA a polipeptide tramite tabella dei codoni ottimizzata.
 
 ## Compilazione
