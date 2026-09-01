@@ -4,14 +4,14 @@ Un tool scritto in C per convertire sequenze genomiche dal formato FASTA in sequ
 ## Funzionalità
 * Lettura e parsing di file ".fasta" 
 * Trascrizione da DNA a RNA
-* Traduzione da RNA a polipeptide tramite tabella dei codoni ottimizzata.
+* Traduzione da RNA a polipeptide.
 
 ## Compilazione
 Per compilare il programma utilizzando GCC su ambiente Linux:
 
-gcc -o translator main.c fasta_io.c translator.c
+gcc -o central_dogma main.c fasta_io.c translator.c
 
 ## Utilizzo
 Passare il file FASTA come argomento:
 
-./translator sequenza.fasta
+./central_dogma <nomefile.fasta>
