@@ -11,26 +11,23 @@ char *read_fasta(const char *filename){
     }
 
     char buffer[256]; //legge una riga
-    char sequence[] = "";
+    char *sequence = calloc(10000, sizeof(char));
 
     while(fgets(buffer, sizeof(buffer), file) != NULL){
 
-        buffer[strcspn(buffer, "\n")] = 0;
+        buffer[strcspn(buffer, "\n")] = 0;//rimuove andata a capo
 
         if(buffer[0] == '>') { //se la riga e' una intestazione(inizia con >)
             printf("Trovata intestazione: %s\n", buffer);
-
         }
+
         else{
             printf("Letta sequenza: %s\n", buffer);
             strcat(sequence, buffer);
         }
     }
-    *sequence = '/0';
-
-    char *result = malloc(strlen(sequence) + 1);
-    strcpy(result, sequence);
+    printf("\n");
 
     fclose(file);
-    return result;
+    return sequence;
 }

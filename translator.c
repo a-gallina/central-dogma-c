@@ -39,19 +39,19 @@ char *transcribe(const char *dna){
     int i = 0;
     while(dna[i] != '\0'){
         if(dna[i] == 'T')
-            rna[i] == 'U';
+            rna[i] = 'U';
         else
-            rna[i] == dna[i];
+            rna[i] = dna[i];
     
         i++;
     }
-    rna[i] == '\0';
+    rna[i] = '\0';
     
     return rna;
 }
 
 struct ProteinNode *translate(const char *rna){
-    int max_len = strlen(*rna / 3) + 1;
+    int max_len = strlen(rna) + 1;
     char *protein = calloc(max_len, sizeof(char));
     struct ProteinNode *result = NULL;
     int writing = 0;

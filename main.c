@@ -1,13 +1,13 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "translator.h"
 #include "fasta_io.h"
 
 void print_list(struct ProteinNode *node){
-    if(node){
-        printf("%s",node->polypeptide);
+    if(node != NULL){
+        printf("%s\n", node->polypeptide);
         print_list(node->next);
     }
-
 }
 
 void free_list(struct ProteinNode *node){
@@ -35,7 +35,7 @@ int main(int argc, char *argv[]){
 
     struct ProteinNode *head = translate(RnaSequence);
     
-    struct ProteinNode *node = head;
+    print_list(head);
     
     free(DnaSequence);
     free(RnaSequence);
