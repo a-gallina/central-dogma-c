@@ -1,8 +1,8 @@
 #ifndef FASTA_IO_H
 #define FASTA_IO_H
 
-void *trancribe(const char *dna, const char *rna);
-void *translate(const char *rna, const char *protein);
+char *trancribe(const char *dna);
+struct ProteinNode *translate(const char *rna);
 
 struct ProteinNode{
     char *polypeptide;

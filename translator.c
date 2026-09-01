@@ -8,19 +8,10 @@ struct ProteinNode{
     struct ProteinNode *next;
 };
 
-int nucleotide_to_int(char c){
-    switch(c){
-        case 'U': return 0;
-        case 'C': return 1;
-        case 'A': return 2;
-        case 'G': return 3;
-        default: return 0;
-    }
-}
-
-void *trancribe(const char *dna, const char *rna){
+char *trancribe(const char *dna){
+    char rna[1000];
     int i = 0;
-    while(dna[i] != '0'){
+    while(dna[i] != '\0'){
         if(dna[i] == 'T')
             rna[i] == 'U';
         else
@@ -30,6 +21,7 @@ void *trancribe(const char *dna, const char *rna){
     }
     rna[i] == '\0';
     
+    return rna;
 }
 
 struct ProteinNode *translate(const char *rna){
