@@ -1,7 +1,7 @@
-#ifndef FASTA_IO_H
-#define FASTA_IO_H
+#ifndef TRANSLATOR_H
+#define TRANSLATOR_H
 
-char *trancribe(const char *dna);
+char *transcribe(const char *dna);
 struct ProteinNode *translate(const char *rna);
 
 struct ProteinNode{

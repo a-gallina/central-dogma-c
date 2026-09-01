@@ -8,8 +8,34 @@ struct ProteinNode{
     struct ProteinNode *next;
 };
 
-char *trancribe(const char *dna){
-    char rna[1000];
+struct ProteinNode *create_list (struct ProteinNode *head, char *protein){
+    if(protein != NULL){
+        struct ProteinNode *NewNode = malloc(sizeof(struct ProteinNode)); //creo il nuovo nodo
+        char *NewProtein = malloc(strlen(protein) + 1); //creo spazio per il nome della nuova proteina
+        strcpy(NewProtein, protein);
+            
+        //faccio puntare il nuovo nodo allo spazio creato per il nome della proteina
+        NewNode->polypeptide = NewProtein;
+        NewNode->next = NULL;
+        
+        if(head != NULL){
+            struct  ProteinNode *list = head;
+        
+            while(list->next != NULL) //arrivo in fondo alla lista
+                list = list->next;
+
+            list->next = NewNode; //in fondo alla lista aggiungo il nuovo nodo
+            
+        }
+        else{
+            head = NewNode;
+        }
+        return head;
+    }
+}
+
+char *transcribe(const char *dna){
+    char *rna = malloc(strlen(dna) + 1);
     int i = 0;
     while(dna[i] != '\0'){
         if(dna[i] == 'T')
@@ -159,28 +185,3 @@ struct ProteinNode *translate(const char *rna){
     return result;
 }
 
-struct ProteinNode *create_list (struct ProteinNode *head, char *protein){
-    if(protein != NULL){
-        struct ProteinNode *NewNode = malloc(sizeof(struct ProteinNode)); //creo il nuovo nodo
-        char *NewProtein = malloc(strlen(protein) + 1); //creo spazio per il nome della nuova proteina
-        strcpy(NewProtein, protein);
-            
-        //faccio puntare il nuovo nodo allo spazio creato per il nome della proteina
-        NewNode->polypeptide = NewProtein;
-        NewNode->next = NULL;
-        
-        if(head != NULL){
-            struct  ProteinNode *list = head;
-        
-            while(list->next != NULL) //arrivo in fondo alla lista
-                list = list->next;
-
-            list->next = NewNode; //in fondo alla lista aggiungo il nuovo nodo
-            
-        }
-        else{
-            head = NewNode;
-        }
-        return head;
-    }
-}

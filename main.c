@@ -5,18 +5,18 @@
 int main(int argc, char *argv[]){
 
     if(argc != 2){
-        pritnf("Erorre. Uso: %s <file.fasta>\n", argv[0]);
+        printf("Erorre. Uso: %s <file.fasta>\n", argv[0]);
         return -1;
     }
 
     if(argv[1] == NULL){
-        pritnf("Erorre. Non riesco ad aprire %s \n", argv[1]);
+        printf("Erorre. Non riesco ad aprire %s \n", argv[1]);
         return -1;
     }
 
-    char DnaSequence[1000] = read_fasta(argv[1]);
+    char *DnaSequence = read_fasta(argv[1]);
 
-    char RnaSequence[1000] = trancribe(DnaSequence);
+    char *RnaSequence = transcribe(DnaSequence);
 
     struct ProteinNode *node = translate(RnaSequence);
     
