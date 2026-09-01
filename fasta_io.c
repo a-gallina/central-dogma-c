@@ -11,7 +11,7 @@ char *read_fasta(const char *filename){
     }
 
     char buffer[256]; //legge una riga
-    char sequence[1000] = "";
+    char sequence[] = "";
 
     while(fgets(buffer, sizeof(buffer), file) != NULL){
 
@@ -26,6 +26,7 @@ char *read_fasta(const char *filename){
             strcat(sequence, buffer);
         }
     }
+    *sequence = '/0';
 
     char *result = malloc(strlen(sequence) + 1);
     strcpy(result, sequence);

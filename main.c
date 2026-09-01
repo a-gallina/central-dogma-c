@@ -2,6 +2,21 @@
 #include "translator.h"
 #include "fasta_io.h"
 
+void print_list(struct ProteinNode *node){
+    if(node){
+        printf("%s",node->polypeptide);
+        print_list(node->next);
+    }
+
+}
+
+void free_list(struct ProteinNode *node){
+    if(node != NULL){
+        free_list(node->next);
+        free(node);
+    }    
+}
+
 int main(int argc, char *argv[]){
 
     if(argc != 2){
@@ -18,12 +33,12 @@ int main(int argc, char *argv[]){
 
     char *RnaSequence = transcribe(DnaSequence);
 
-    struct ProteinNode *node = translate(RnaSequence);
+    struct ProteinNode *head = translate(RnaSequence);
     
-    while(node){
-        printf("%s\n", node->polypeptide);
-        node = node->next;
-    }
-
+    struct ProteinNode *node = head;
+    
+    free(DnaSequence);
+    free(RnaSequence);
+    free_list(head);
     return 0;
 }

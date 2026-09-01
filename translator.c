@@ -51,7 +51,8 @@ char *transcribe(const char *dna){
 }
 
 struct ProteinNode *translate(const char *rna){
-    char protein[1000] = "";
+    int max_len = strlen(*rna / 3) + 1;
+    char *protein = calloc(max_len, sizeof(char));
     struct ProteinNode *result = NULL;
     int writing = 0;
     char *amminoacid;
@@ -182,6 +183,8 @@ struct ProteinNode *translate(const char *rna){
 
         rna += i;
     }
+
+    free(protein);
     return result;
 }
 
