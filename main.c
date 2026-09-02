@@ -5,7 +5,7 @@
 
 void print_list(struct ProteinNode *node){
     if(node != NULL){
-        printf("%s\n", node->polypeptide);
+        printf("Polipeptide trovato: %s\n", node->polypeptide);
         print_list(node->next);
     }
 }
@@ -20,19 +20,21 @@ void free_list(struct ProteinNode *node){
 int main(int argc, char *argv[]){
 
     if(argc != 2){
-        printf("Erorre. Uso: %s <file.fasta>\n", argv[0]);
-        return -1;
-    }
-
-    if(argv[1] == NULL){
-        printf("Erorre. Non riesco ad aprire %s \n", argv[1]);
+        printf("Errorre. Uso: %s <file.fasta>\n", argv[0]);
         return -1;
     }
 
     char *DnaSequence = read_fasta(argv[1]);
+    if(DnaSequence == NULL){
+        return -1;
+    }
 
     char *RnaSequence = transcribe(DnaSequence);
-
+    if(RnaSequence == NULL){
+        free(DnaSequence);
+        return -1;
+    }
+    
     struct ProteinNode *head = translate(RnaSequence);
     
     print_list(head);
