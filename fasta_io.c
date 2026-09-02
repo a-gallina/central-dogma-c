@@ -12,6 +12,11 @@ char *read_fasta(const char *filename){
 
     char buffer[256]; //legge una riga
     char *sequence = calloc(10000, sizeof(char));
+    if(sequence == NULL){
+        fprintf(stderr, "Errore, memoria insufficiente\n");
+        fclose(file);
+        return NULL;
+    }
 
     while(fgets(buffer, sizeof(buffer), file) != NULL){
 
