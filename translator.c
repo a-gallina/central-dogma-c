@@ -1,37 +1,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-
-struct ProteinNode{
-    char *polypeptide;
-    struct ProteinNode *next;
-};
+#include "translator.h"
 
 struct ProteinNode *create_list (struct ProteinNode *head, char *protein){
-    if(protein != NULL){
-        struct ProteinNode *NewNode = malloc(sizeof(struct ProteinNode)); //creo il nuovo nodo
-        char *NewProtein = malloc(strlen(protein) + 1); //creo spazio per il nome della nuova proteina
-        strcpy(NewProtein, protein);
-            
-        //faccio puntare il nuovo nodo allo spazio creato per il nome della proteina
-        NewNode->polypeptide = NewProtein;
-        NewNode->next = NULL;
-        
-        if(head != NULL){
-            struct  ProteinNode *list = head;
-        
-            while(list->next != NULL) //arrivo in fondo alla lista
-                list = list->next;
+    if(protein == NULL || protein[0] == '\0')
+        return head;
 
-            list->next = NewNode; //in fondo alla lista aggiungo il nuovo nodo
-            
-        }
-        else{
-            head = NewNode;
-        }
+    
+    struct ProteinNode *newNode = malloc(sizeof(struct ProteinNode)); //creo il nuovo nodo
+    if(newNode == NULL){
+        fprintf(stderr, "Errore, memoria insufficiente\n");
         return head;
     }
+
+    char *newProtein = malloc(strlen(protein) + 1); //creo spazio per il nome della nuova proteina
+    if(newProtein == NULL){
+        fprintf(stderr, "Errore, memoria insufficiente\n");
+        return head;
+    }
+
+    strcpy(newProtein, protein);
+           
+    //faccio puntare il nuovo nodo allo spazio creato per il nome della proteina
+    newNode->polypeptide = newProtein;
+    newNode->next = NULL;
+        
+    if(head != NULL){
+        struct  ProteinNode *list = head;
+        
+        while(list->next != NULL) //arrivo in fondo alla lista
+            list = list->next;
+
+        list->next = newNode; //in fondo alla lista aggiungo il nuovo nodo
+            
+    }
+    else{
+        head = newNode;
+    }
+    return head;
+    
 }
 
 char *transcribe(const char *dna){
@@ -55,10 +63,10 @@ struct ProteinNode *translate(const char *rna){
     char *protein = calloc(max_len, sizeof(char));
     struct ProteinNode *result = NULL;
     int writing = 0;
-    char *amminoacid;
+    char *aminoacid;
     int i = 1;
     while(*rna != '\0'){
-        amminoacid = "";
+        aminoacid = "";
         if (strlen(rna) < 3) {
             break; 
         }
@@ -71,26 +79,26 @@ struct ProteinNode *translate(const char *rna){
 
                     case 'U':
                     switch (*(rna + 2)){
-                        case 'U': case 'C': amminoacid = "Phe"; break;
-                        case 'A': case 'G': amminoacid = "Leu";
+                        case 'U': case 'C': aminoacid = "Phe"; break;
+                        case 'A': case 'G': aminoacid = "Leu";
                     }
                     break;
 
-                    case 'C': amminoacid = "Ser";
+                    case 'C': aminoacid = "Ser";
                     break;
 
                     case 'A':
                     switch (*(rna + 2)){
-                        case 'U': case 'C': amminoacid = "Tyr"; break;
-                        case 'A': case 'G': amminoacid = "Stop";
+                        case 'U': case 'C': aminoacid = "Tyr"; break;
+                        case 'A': case 'G': aminoacid = "Stop";
                     }
                     break;
 
                     case 'G':
                     switch (*(rna + 2)){
-                        case 'U': case 'C': amminoacid = "Cys"; break;
-                        case 'A': amminoacid = "Stop"; break;
-                        case 'G': amminoacid = "Trp";
+                        case 'U': case 'C': aminoacid = "Cys"; break;
+                        case 'A': aminoacid = "Stop"; break;
+                        case 'G': aminoacid = "Trp";
                     }
                 }
             break;
@@ -99,20 +107,20 @@ struct ProteinNode *translate(const char *rna){
 
                 switch(*(rna + 1)){
 
-                    case 'U': amminoacid = "Leu";
+                    case 'U': aminoacid = "Leu";
                     break;
 
-                    case 'C': amminoacid = "Pro";
+                    case 'C': aminoacid = "Pro";
                     break;
 
                     case 'A':
                     switch (*(rna + 2)){
-                        case 'U': case 'C': amminoacid = "His"; break;
-                        case 'A': case 'G': amminoacid = "Gln";
+                        case 'U': case 'C': aminoacid = "His"; break;
+                        case 'A': case 'G': aminoacid = "Gln";
                     }
                     break;
 
-                    case 'G': amminoacid = "Arg";
+                    case 'G': aminoacid = "Arg";
                 }
             break;
 
@@ -122,25 +130,25 @@ struct ProteinNode *translate(const char *rna){
 
                     case 'U':
                     switch (*(rna + 2)){
-                        case 'U': case 'C': case 'A': amminoacid = "Ile"; break;
-                        case 'G': amminoacid = "Met";
+                        case 'U': case 'C': case 'A': aminoacid = "Ile"; break;
+                        case 'G': aminoacid = "Met";
                     }
                     break;
 
-                    case 'C': amminoacid = "Thr";
+                    case 'C': aminoacid = "Thr";
                     break;
 
                     case 'A':
                     switch (*(rna + 2)){
-                        case 'U': case 'C': amminoacid = "Asn"; break;
-                        case 'A': case 'G': amminoacid = "Lys"; 
+                        case 'U': case 'C': aminoacid = "Asn"; break;
+                        case 'A': case 'G': aminoacid = "Lys"; 
                     }
                     break;
 
                     case 'G':
                     switch (*(rna + 2)){
-                        case 'U': case 'C': amminoacid = "Ser"; break;
-                        case 'A': case 'G': amminoacid = "Arg";
+                        case 'U': case 'C': aminoacid = "Ser"; break;
+                        case 'A': case 'G': aminoacid = "Arg";
                     }
                 }
             break;
@@ -149,41 +157,45 @@ struct ProteinNode *translate(const char *rna){
 
                 switch(*(rna + 1)){
 
-                    case 'U': amminoacid = "Val";
+                    case 'U': aminoacid = "Val";
                     break;
 
-                    case 'C': amminoacid = "Ala";
+                    case 'C': aminoacid = "Ala";
                     break;
 
                     case 'A':
                     switch (*(rna + 2)){
-                        case 'U': case 'C': amminoacid = "Asp"; break;
-                        case 'A': case 'G': amminoacid = "Glu"; 
+                        case 'U': case 'C': aminoacid = "Asp"; break;
+                        case 'A': case 'G': aminoacid = "Glu"; 
                     }
                     break;
 
-                    case 'G': amminoacid = "Gly";
+                    case 'G': aminoacid = "Gly";
                 }
         }
 
-        if( !strcmp(amminoacid,"Met")){
+        if( !writing && !strcmp(aminoacid,"Met")){
             i = 3;
             writing = 1;
         }
 
-        if( !strcmp(amminoacid, "Stop")){
+        if( !strcmp(aminoacid, "Stop")){
+            if(writing){
+                result = create_list(result, protein);
+            }
             writing = 0;
             i = 1;
-            result = create_list(result, protein);
             protein[0] = '\0';
         }    
-        
-        if(writing)
-            strcat(protein, amminoacid);
+        else if(writing){
+            strcat(protein, aminoacid);
+        }
 
         rna += i;
     }
-
+    if(writing && protein[0] != '\0')
+        result = create_list(result, protein);
+    
     free(protein);
     return result;
 }
